@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use 5.008001;
+use 5.008;
 
 BEGIN
 {
