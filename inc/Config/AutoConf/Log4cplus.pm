@@ -30,8 +30,15 @@ sub check_liblog4cplus
 {
     my $self = shift->_get_instance();
     $self->pkg_config_package_flags("log4cplus");
+    my $have_liblog4cplus;
 
-    return $self->search_libs("log4cplus_initialize", ["log4cplus"], [qw(stdc++), qw(stdc++ unwind)]);
+    if ($have_liblog4cplus = $self->search_libs("log4cplus_initialize", ["log4cplus"], [[qw(stdc++)], [qw(stdc++ unwind)]]))
+    {
+        $self->check_funcs([qw(log4cplus_file_reconfigure log4cplus_str_reconfigure log4cplus_basic_reconfigure)]);
+        $self->check_funcs([qw(log4cplus_add_log_level log4cplus_remove_log_level)]);
+    }
+
+    return $have_liblog4cplus;
 }
 
 sub check_log4cplus_header

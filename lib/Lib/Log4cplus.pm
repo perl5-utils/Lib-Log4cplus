@@ -8,9 +8,12 @@ use parent 'Exporter';
 
 use XSLoader ();
 
-our $VERSION = '0.001';
-our @EXPORT_OK =
-  (qw(basic_configure file_configure static_configure), qw(logger_exists logger_is_enabled_for logger_log logger_force_log),);
+our $VERSION   = '0.001';
+our @EXPORT_OK = (
+    qw(basic_configure file_configure static_configure),
+    qw(logger_exists logger_is_enabled_for logger_log logger_force_log),
+    qw(log4cplus_add_log_level log4cplus_remove_log_level)
+);
 our %EXPORT_TAGS = (
     ALL => [@EXPORT_OK],
 );

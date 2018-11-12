@@ -36,6 +36,11 @@ BOOT:
     MY_CXT.count = 0;
     MY_CXT.initializer = newSV(0);
     sv_setref_pv(MY_CXT.initializer, "Lib::Log4cplus::Initializer", log4cplus_initialize());
+#if defined(HAVE_LOG4CPLUS_ADD_LOG_LEVEL) && defined(HAVE_LOG4CPLUS_REMOVE_LOG_LEVEL)
+    log4cplus_add_log_level(CRITICAL_LOG_LEVEL, "CRIT");
+    log4cplus_add_log_level(NOTICE_LOG_LEVEL, "NOTICE");
+    log4cplus_add_log_level(BASIC_LOG_LEVEL, "BASIC");
+#endif
 }
 
 void
@@ -57,8 +62,11 @@ CODE:
     int ret_code;
     if(NULL == pathname)
 	XSRETURN_UNDEF;
-
+#ifdef HAVE_LOG4CPLUS_FILE_RECONFIGURE
+    ret_code = log4cplus_file_reconfigure(pathname);
+#else
     ret_code = log4cplus_file_configure(pathname);
+#endif
     ST(0) = sv_2mortal(newSViv(ret_code));
     XSRETURN(1);
 }
@@ -73,8 +81,11 @@ CODE:
     int ret_code;
     if(NULL == configuration)
 	XSRETURN_UNDEF;
-
+#ifdef HAVE_LOG4CPLUS_STR_RECONFIGURE
+    ret_code = log4cplus_str_reconfigure(configuration);
+#else
     ret_code = log4cplus_str_configure(configuration);
+#endif
     ST(0) = sv_2mortal(newSViv(ret_code));
     XSRETURN(1);
 }
@@ -85,7 +96,11 @@ basic_configure (out_to_stderr)
 PROTOTYPE:
 CODE:
 {
+#ifdef HAVE_LOG4CPLUS_BASIC_RECONFIGURE
+    int ret_code = log4cplus_basic_reconfigure(out_to_stderr);
+#else
     int ret_code = log4cplus_basic_configure();
+#endif
     ST(0) = sv_2mortal(newSViv(ret_code));
     XSRETURN(1);
 }
@@ -144,5 +159,39 @@ CODE:
 {
     int ret_code = NULL != message ? log4cplus_logger_force_log_str(category, log_level, message) : EINVAL;
     ST(0) = sv_2mortal(newSViv(ret_code));
+    XSRETURN(1);
+}
+
+void
+log4cplus_add_log_level(loglevel, loglevel_name)
+	unsigned int loglevel;
+	const char *loglevel_name;
+PROTOTYPE:
+	$$
+CODE:
+{
+#ifdef HAVE_LOG4CPLUS_ADD_LOG_LEVEL
+    int ret_code = log4cplus_add_log_level(loglevel, loglevel_name);
+    ST(0) = sv_2mortal(newSViv(ret_code));
+#else
+    ST(0) = sv_2mortal(newSViv(ENOTSUP));
+#endif
+    XSRETURN(1);
+}
+
+void
+log4cplus_remove_log_level(loglevel, loglevel_name)
+	unsigned int loglevel;
+	const char *loglevel_name;
+PROTOTYPE:
+	$$
+CODE:
+{
+#ifdef HAVE_LOG4CPLUS_REMOVE_LOG_LEVEL
+    int ret_code = log4cplus_remove_log_level(loglevel, loglevel_name);
+    ST(0) = sv_2mortal(newSViv(ret_code));
+#else
+    ST(0) = sv_2mortal(newSViv(ENOTSUP));
+#endif
     XSRETURN(1);
 }
