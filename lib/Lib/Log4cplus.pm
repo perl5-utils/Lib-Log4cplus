@@ -94,6 +94,22 @@ Any currently existing configuration is not reset.
 
 See L<http://log4cplus.sourceforge.net/docs/html/classlog4cplus_1_1PropertyConfigurator.html> for more details.
 
+=head2 log4cplus_add_log_level
+
+  log4cplus_add_log_level(INFO_LOG_LEVEL+1, "BASIC")
+
+Introduces a new log level which can be used to express severities a
+bit clearer. Returns B<false> when the new loglevel or name already
+exists, respectively.
+
+=head2 log4cplus_remove_log_level
+
+  log4cplus_remove_log_level(INFO_LOG_LEVEL+1, "BASIC")
+
+Removes a previously added log level (where C<log4cplus_add_log_level> returned
+B<true>).  Returns false when either loglevel or name can't be resolved to each
+other.
+
 =head2 logger_exists
 
   say "Yes" if logger_exists("wuff");
