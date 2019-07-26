@@ -16,7 +16,7 @@ my @log_levels = (qw(emergency panic fatal critical error warning notice basic i
 
 my ($testbn, $testpath, undef) = fileparse(abs_path(File::Spec->catfile($RealBin, $RealScript)), qr/\.[^.]*/);
 my $propfile = File::Spec->catfile($testpath, $testbn . ".properties");
-my $logger = Log::Log4cplus->new(config_file => $propfile);
+my $logger   = Log::Log4cplus->new(config_file => $propfile);
 foreach my $log_level (@log_levels)
 {
     my $is = "is_$log_level";

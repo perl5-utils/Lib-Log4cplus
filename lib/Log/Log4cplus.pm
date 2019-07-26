@@ -67,7 +67,7 @@ my %config_dispatch = (
 sub new
 {
     my $class = shift;
-    my $self = bless {@_}, $class;
+    my $self  = bless {@_}, $class;
     $self->_reconfigure;
     return $self;
 }
@@ -236,7 +236,7 @@ foreach my $ll (keys %log_levels)
 {
     *$ll = sub {
         my $self = shift;
-        my $msg = scalar @_ > 1 ? "@_" : shift;
+        my $msg  = scalar @_ > 1 ? "@_" : shift;
         return Lib::Log4cplus::logger_log($self->{name}, $log_levels{$ll}, $msg);
     };
 
