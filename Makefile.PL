@@ -78,7 +78,7 @@ or install the appropriate package for your operating system.
 *************************************************************
 EOD
 
-my $xsfile = "Log4cplus.xs";
+my $xsfile   = "Log4cplus.xs";
 my $config_h = File::Spec->catfile(dirname($xsfile), 'LLCconfig.h');
 Config::AutoConf::Log4cplus->write_config_h("LLCconfig.h");
 _write_constants();
@@ -107,8 +107,12 @@ my %CONFIGURE_DEPS = (
 my %BUILD_DEPS = ();
 
 my %TEST_DEPS = (
-    'Capture::Tiny' => '0.06',
-    'Test::More'    => 0.96,
+    'Capture::Tiny'  => '0.06',
+    'Cwd'            => 0,
+    'File::Basename' => 0,
+    'File::Spec'     => 0,
+    'FindBin'        => 0,
+    'Test::More'     => 0.96,
 );
 my @XS_FILES = ($xsfile);
 
