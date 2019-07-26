@@ -190,7 +190,7 @@ L<http://search.cpan.org/dist/Lib-Log4cplus/>
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright 2018 Jens Rehsack.
+Copyright 2018-2019 Jens Rehsack.
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the the Artistic License (2.0). You may obtain a
